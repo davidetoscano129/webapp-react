@@ -1,14 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import DefaultLayout from './layouts/DefaultLayout';
+import Home from './pages/Home';
+import MoviesList from './pages/MoviesList';
 
-function App() {
-
+export default function App() {
   return (
-    <>
-
-    </>
-  )
+    <Routes>
+      <Route element={<DefaultLayout />}>
+        <Route index element={<Home />} />
+        <Route path="/movies" element={<MoviesList />} />
+      </Route>
+    </Routes>
+  );
 }
-
-export default App
