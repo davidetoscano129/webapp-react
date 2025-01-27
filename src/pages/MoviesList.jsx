@@ -1,25 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './MoviesList.css';
 
 export default function MoviesList() {
-    // Simulazione di un array di film per esempio visivo
-    const movies = [
-        { id: 1, title: 'Inception', description: 'A mind-bending thriller by Christopher Nolan.' },
-        { id: 2, title: 'The Matrix', description: 'A sci-fi classic about reality and illusion.' },
-        { id: 3, title: 'Interstellar', description: 'A journey through space and time.' },
-    ];
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        // Chiamata API per ottenere i film
+        axios.get('http://localhost:4000/movies')
+            .then((response) => {
+                setMovies(response.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error('Errore nella richiesta:', error);
+                setError('Errore nel caricamento dei film');
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
 
     return (
         <div className="movies-list">
             <h1 className="movies-list-title">Movies List</h1>
-            <p className="movies-list-description">
-                Explore our collection of amazing movies! Click on any title for details.
-            </p>
             <div className="movies-grid">
                 {movies.map((movie) => (
                     <div key={movie.id} className="movie-card">
+                        <img
+                            src={movie.image ? `http://localhost:4000/images/${movie.image}` : '/fallback.jpg'}
+                            alt={movie.title}
+                            className="movie-image"
+                        />
                         <h2 className="movie-title">{movie.title}</h2>
-                        <p className="movie-description">{movie.description}</p>
+                        <p className="movie-description">{movie.description || 'No description available.'}</p>
                     </div>
                 ))}
             </div>

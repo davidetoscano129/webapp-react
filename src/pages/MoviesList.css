@@ -7,14 +7,8 @@
 
 .movies-list-title {
     font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: #4CAF50;
-}
-
-.movies-list-description {
-    font-size: 1.2rem;
     margin-bottom: 20px;
-    color: #666;
+    color: #4CAF50;
 }
 
 .movies-grid {
@@ -36,6 +30,12 @@
 .movie-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.movie-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
 
 .movie-title {
