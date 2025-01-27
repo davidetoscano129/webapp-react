@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './MoviesList.css';
 
@@ -8,7 +9,6 @@ export default function MoviesList() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Chiamata API per ottenere i film
         axios.get('http://localhost:4000/movies')
             .then((response) => {
                 setMovies(response.data);
@@ -16,7 +16,7 @@ export default function MoviesList() {
             })
             .catch((error) => {
                 console.error('Errore nella richiesta:', error);
-                setError('Errore nel caricamento dei film');
+                setError('Errore nel caricamento della lista dei film');
                 setLoading(false);
             });
     }, []);
@@ -26,17 +26,19 @@ export default function MoviesList() {
 
     return (
         <div className="movies-list">
-            <h1 className="movies-list-title">Movies List</h1>
+            <h1>Movies List</h1>
             <div className="movies-grid">
                 {movies.map((movie) => (
                     <div key={movie.id} className="movie-card">
-                        <img
-                            src={movie.image ? `http://localhost:4000/images/${movie.image}` : '/fallback.jpg'}
-                            alt={movie.title}
-                            className="movie-image"
-                        />
-                        <h2 className="movie-title">{movie.title}</h2>
-                        <p className="movie-description">{movie.description || 'No description available.'}</p>
+                        <Link to={`/movies/${movie.id}`}>
+                            <img
+                                src={movie.image ? `http://localhost:4000/images/${movie.image}` : '/fallback.jpg'}
+                                alt={movie.title}
+                                className="movie-image"
+                            />
+                            <h2 className="movie-title">{movie.title}</h2>
+                        </Link>
+                        <p className="movie-description">{movie.abstract || 'No description available.'}</p>
                     </div>
                 ))}
             </div>
